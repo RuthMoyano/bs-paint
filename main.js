@@ -17,6 +17,9 @@
  */
 const gridWidth = 10;
 let count = 0;
+const palette = document.querySelectorAll('.palette-color')
+const brush = document.querySelector('.current-brush')
+const canvas = document.querySelector('.canvas')
 while (count <= gridWidth * gridWidth) {
   const canvas = document.querySelector('.canvas');
   const div = document.createElement('div');
@@ -24,7 +27,8 @@ while (count <= gridWidth * gridWidth) {
   canvas.appendChild(div);
   count++;
 }
-
+const boxSquares = document.querySelectorAll('.square')
+let mouseDown = false;
 // You probably should NOT do these in the order below.
 // That is, you probably should NOT do all the queries,
 // THEN all the functions,
@@ -51,6 +55,7 @@ while (count <= gridWidth * gridWidth) {
 
 
 
+
 /****************************
  * EVENT LISTENER FUNCTIONS *
 ****************************/
@@ -62,7 +67,40 @@ while (count <= gridWidth * gridWidth) {
 // bad idea for testing purposes.
 
 
+for (const square of boxSquares ){
+  square.addEventListener('click', (event)=>{
+    const px = event.target
+    px.classList= brush.classList
+    px.style.border='0px'
+    px.classList.add('square')
+  })
+}
 
+
+for (const colors of palette){
+  colors.addEventListener('click', ()=>{
+    brush.classList=colors.classList
+  })
+}
+
+
+
+for (const square of boxSquares ){
+  square.addEventListener('mouseenter', (event)=>{
+    if(mouseDown){
+      const px = event.target
+      px.classList= brush.classList
+      px.style.border ='0px'
+      px.classList.add('square')
+  }
+})
+}
+document.body.addEventListener('mousedown', ()=>{
+  mouseDown=true;
+})
+document.body.addEventListener('mouseup', ()=>{
+  mouseDown=false;
+})
 /**************************
  * WIRING IT ALL TOGETHER *
 **************************/
